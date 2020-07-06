@@ -1,0 +1,8 @@
+eclipse.preferences.version=1
+encoding//src/main/java/com/thanhduyen/controller/admin/NewController.java=UTF-8
+encoding//src/main/java/com/thanhduyen/controller/admin/api/NewAPI.java=UTF-8
+encoding//src/main/java/com/thanhduyen/controller/web/HomeController.java=UTF-8
+encoding//src/main/java/com/thanhduyen/dao/impl/NewDAO.java=UTF-8
+encoding//src/main/java/com/thanhduyen/utils/FormUtil.java=UTF-8
+encoding//src/main/java/com/thanhduyen/utils/HttpUtil.java=UTF-8
+encoding//src/main/webapp/common/taglib.jsp=UTF-8
