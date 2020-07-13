@@ -8,4 +8,8 @@ import com.thanhduyen.model.CategoryModel;
 public interface ICategoryDAO extends GenericDAO<CategoryModel>{
 	
 	List<CategoryModel> findAll();
+
+	CategoryModel findOne(Long id);
+
+	CategoryModel findOneCode(String code);
 }

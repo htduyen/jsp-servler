@@ -1,6 +1,9 @@
 package com.thanhduyen.controller.admin;
 
+import com.thanhduyen.utils.SessionUtil;
+
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.RequestDispatcher;
@@ -16,12 +19,18 @@ public class HomeController extends HttpServlet{
 
 
 	private static final long serialVersionUID = 1L;
-	
+	ResourceBundle resourcebundle = ResourceBundle.getBundle("message");
 	
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		RequestDispatcher rd = req.getRequestDispatcher("/views/admin/home.jsp");
-		rd.forward(req, resp);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+			//Apply view cho trang admin tại body tag
+			RequestDispatcher rd = request.getRequestDispatcher("/views/admin/home.jsp");
+			rd.forward(request, response);
+
+
+
 	}
 	
 	

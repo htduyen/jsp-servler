@@ -5,7 +5,9 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import com.thanhduyen.dao.ICategoryDAO;
 import com.thanhduyen.dao.INewDAO;
+import com.thanhduyen.model.CategoryModel;
 import com.thanhduyen.model.NewModel;
 import com.thanhduyen.paging.Pageble;
 import com.thanhduyen.service.INewService;
@@ -14,7 +16,10 @@ public class NewService implements INewService{
 
 	@Inject
 	private INewDAO newDao;
-	
+
+	@Inject
+	private ICategoryDAO categoryDAO;
+
 	@Override
 	public List<NewModel> findByCategoryID(Long cateID) {
 				
@@ -25,8 +30,9 @@ public class NewService implements INewService{
 	public NewModel save(NewModel newModel) {
 		
 		newModel.setCreateDate(new Timestamp(System.currentTimeMillis()));
-		newModel.setCreateBy("Thanh Duyen");
-		
+		//newModel.setCreateBy("Thanh Duyen");
+		CategoryModel categoryModel = categoryDAO.findOneCode(newModel.getCategoryCode());
+		newModel.setCategoryId(categoryModel.getId());
 		Long newID = newDao.save(newModel);
 	 	return newDao.findOne(newID);
 	}
@@ -38,6 +44,8 @@ public class NewService implements INewService{
 		updateNews.setCreateBy(oldNew.getCreateBy());
 		updateNews.setModifiedBy("Thanh Duyen");
 		updateNews.setModifiedDate(new Timestamp(System.currentTimeMillis()));
+		CategoryModel categoryModel = categoryDAO.findOneCode(updateNews.getCategoryCode());
+		updateNews.setCategoryId(categoryModel.getId());
 		newDao.update(updateNews);
 		return newDao.findOne(updateNews.getId());
 	}
@@ -62,5 +70,14 @@ public class NewService implements INewService{
 		
 		return newDao.getTotalItem();
 	}
-	
+
+	@Override
+	public NewModel findOne(Long id) {
+		NewModel model = newDao.findOne(id);
+		CategoryModel cate = categoryDAO.findOne(model.getCategoryId());
+		//Khi them moi thi categoryCode == null khi update thi đã có categoryCode anh huong toi view option
+		model.setCategoryCode(cate.getCode());
+		return model;
+	}
+
 }

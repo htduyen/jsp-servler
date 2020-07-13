@@ -1,6 +1,7 @@
 package com.thanhduyen.controller.admin.api;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -11,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.thanhduyen.model.NewModel;
+import com.thanhduyen.model.UserModel;
 import com.thanhduyen.service.INewService;
 import com.thanhduyen.utils.HttpUtil;
+import com.thanhduyen.utils.SessionUtil;
 
 @WebServlet(urlPatterns = {"/api-admin-new"})
 public class NewAPI extends HttpServlet{
@@ -35,9 +38,10 @@ public class NewAPI extends HttpServlet{
 		// .toModel(NewModel.class) map	
 		//Map json trả về với các field trong model su dung jackson-databind 
 		NewModel newModel = HttpUtil.of(request.getReader()).toModel(NewModel.class);
-//		
+		newModel.setCreateBy(((UserModel) SessionUtil.getInstance().getValue(request,"USERMODEL")).getUserName());
+		newModel.setCreateDate(new Timestamp(System.currentTimeMillis()));
 		newModel = newService.save(newModel);
-		System.out.println("NewModel: " + newModel);
+
 		
 	//tra response cho client dang json
 		mapper.writeValue(response.getOutputStream(), newModel);
@@ -53,6 +57,7 @@ public class NewAPI extends HttpServlet{
 		response.setContentType("application/json");
 		
 		NewModel updateNew = HttpUtil.of(request.getReader()).toModel(NewModel.class);
+		updateNew.setModifiedBy(((UserModel) SessionUtil.getInstance().getValue(request,"USERMODEL")).getUserName());
 		updateNew = newService.update(updateNew);
 		mapper.writeValue(response.getOutputStream(), updateNew);
 

@@ -1,16 +1,12 @@
 package com.thanhduyen.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-
 import com.thanhduyen.dao.INewDAO;
 import com.thanhduyen.mapper.NewMapper;
 import com.thanhduyen.model.NewModel;
 import com.thanhduyen.paging.Pageble;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 public class NewDAO extends AbstractDAO<NewModel> implements INewDAO{
 
@@ -70,7 +66,7 @@ public class NewDAO extends AbstractDAO<NewModel> implements INewDAO{
 		
 		//String sql = "Select * from news limit ?, ?";
 		StringBuilder sql = new StringBuilder("Select * from news");
-		if(pageble.getSorter() != null) {
+		if(pageble.getSorter() != null && StringUtils.isNotBlank(pageble.getSorter().getSortName()) && StringUtils.isNotBlank(pageble.getSorter().getSortBy())) {
 			sql.append(" order by " + pageble.getSorter().getSortName() + " " + pageble.getSorter().getSortBy() + "");
 		}
 		if(pageble.getOffset() != null && pageble.getLimit() != null) {
